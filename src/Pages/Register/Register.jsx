@@ -12,40 +12,58 @@ const Register = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     const [error, setError] = useState('');
-    const { createUser, logOut } = useContext(AuthContext);
+    const { createUser, updateUserProfile, logOut } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const onSubmit = data => {
         createUser(data.email, data.password)
-        .then(result => {
-            Swal.fire({
-                title: 'Successfully User Created!',
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
-            })
-            const loggedUser = result.user;
-            updateUserProfile(loggedUser, data.name, data.photo );
-            setError('');
-            reset();
-            logOut()
-                .then( () => navigate('/login'))
-            
-        })
-        .catch(err => setError(err.message))
-    }
+            .then(result => {
 
-    const updateUserProfile = (user, name, photo) => {
-        updateProfile(user, {
-            displayName: name,
-            photoURL: photo
-        })
-            .then( () => console.log('name successfully updated'))
+                const loggedUser = result.user;
+                // updateUserProfile(loggedUser, data.name, data.photo );
+                updateUserProfile(data.name, data.photo)
+                    .then(() => {
+                        const saveUser = {name: data.name, email: data.email}
+                        fetch('http://localhost:5000/users', {
+                            method: 'POST',
+                            headers: {
+                                'content-type' : 'application/json'
+                            },
+                            body: JSON.stringify(saveUser)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.insertedId) {
+                                    Swal.fire({
+                                        title: 'Successfully User Created!',
+                                        showClass: {
+                                            popup: 'animate__animated animate__fadeInDown'
+                                        },
+                                        hideClass: {
+                                            popup: 'animate__animated animate__fadeOutUp'
+                                        }
+                                    })
+                                    setError('');
+                                    reset();
+                                    logOut()
+                                        .then(() => navigate('/login'))
+                                }
+                            })
+                            .catch(err => console.log(err.message))
+                    })
+                    .catch(err => console.log(err.message))
+            })
             .catch(err => setError(err.message))
     }
+
+    // const updateUserProfile = (user, name, photo) => {
+    //     updateProfile(user, {
+    //         displayName: name,
+    //         photoURL: photo
+    //     })
+    //         .then( () => console.log('name successfully updated'))
+    //         .catch(err => setError(err.message))
+    // }
 
     return (
         <div className='loginContainer'>
@@ -102,7 +120,7 @@ const Register = () => {
                             <div className="form-control mt-6">
                                 <button className="submitBtn">Register</button>
                             </div>
-                            <p className='text-center'>Already Have an Account? <Link to="/login" style={{color: 'var(--link-color)'}}>Login</Link></p>
+                            <p className='text-center'>Already Have an Account? <Link to="/login" style={{ color: 'var(--link-color)' }}>Login</Link></p>
                         </form>
                     </div>
                 </div>
