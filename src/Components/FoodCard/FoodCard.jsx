@@ -15,7 +15,7 @@ const FoodCard = ({ item }) => {
 
     const handleCart = (item) => {
 
-        const orderItem = {itemId: _id, name, price, category, image, email: user.email};
+        const orderItem = {itemId: _id, name, price, category, image, email: user?.email};
         // console.log(item);
         if (user && user.email) {
             fetch(`http://localhost:5000/carts`, {

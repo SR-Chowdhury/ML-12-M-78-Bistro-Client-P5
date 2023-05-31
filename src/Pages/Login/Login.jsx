@@ -6,6 +6,7 @@ import ReactHelmet from '../../Components/ReactHelmet/ReactHelmet';
 import { AuthContext } from '../../Providers/AuthProvider';
 import Swal from 'sweetalert2';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import SocialLogin from '../../Components/SocialLogin/SocialLogin';
 
 const Login = () => {
 
@@ -106,6 +107,7 @@ const Login = () => {
                             </div>
                             <p className='text-center'>New in this website? <Link to="/register" style={{color: 'var(--link-color)'}}>Register</Link></p>
                         </form>
+                        <SocialLogin/>
                     </div>
                 </div>
             </div>
