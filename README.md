@@ -2,6 +2,7 @@
 
 * 78-1 Module Introduction and save user data
 * 78-2 Google Sign in and when to save user info
+* 78-3 Save user if he doesn't exits in the DB
 
 
 ## react-boilerplate-2
