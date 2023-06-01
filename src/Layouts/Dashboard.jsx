@@ -1,13 +1,15 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import useCart from '../Hooks/useCart';
+import useAdmin from '../Hooks/useAdmin';
 
 const Dashboard = () => {
 
     const [cart] = useCart();
 
     // TODO : load admin user from DB
-    const isAdmin = true;
+    // const isAdmin = true;
+    const [isAdmin] = useAdmin();
 
     return (
         <div>

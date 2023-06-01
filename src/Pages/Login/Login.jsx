@@ -1,18 +1,18 @@
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import React, { useEffect, useState } from 'react';
 import './Login.css';
 import img from '../../assets/others/authentication1.png';
 import ReactHelmet from '../../Components/ReactHelmet/ReactHelmet';
-import { AuthContext } from '../../Providers/AuthProvider';
 import Swal from 'sweetalert2';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from '../../Components/SocialLogin/SocialLogin';
+import useAuth from '../../Hooks/useAuth';
 
 const Login = () => {
 
     const [error, setError] = useState('');
     const [disabled, setDisabled] = useState(true);
-    const { singIn } = useContext(AuthContext);
+    const { singIn } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     const from = location.state?.from?.pathname || "/";
@@ -35,7 +35,7 @@ const Login = () => {
         singIn(email, password)
             .then(result => {
                 Swal.fire({
-                    title: 'Successfully Loge in',
+                    title: 'Successfully Log in',
                     showClass: {
                         popup: 'animate__animated animate__fadeInDown'
                     },
@@ -45,8 +45,8 @@ const Login = () => {
                 })
                 const loggedUser = result.user;
                 setError('');
-                form.reset();
                 navigate(from, { replace: true });
+                // navigate('/');
             })
             .catch(err => setError(err.message))
     }
