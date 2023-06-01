@@ -4,6 +4,7 @@
 * 78-2 Google Sign in and when to save user info
 * 78-3 Save user if he doesn't exits in the DB
 * 78-4 Load all users on the Dashboard page
+* 78-5 Display All users and Create Make Admin API
 
 
 ## react-boilerplate-2
